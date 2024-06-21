@@ -27,4 +27,4 @@ jobs:
           cd docschat/docster_llm/
           git pull origin main
           git status
-          sudo systemctl restart app.service
+          sudo -A systemctl restart app.service
