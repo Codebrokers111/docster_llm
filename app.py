@@ -55,7 +55,7 @@ def uploadFile(name):
 
 @app.route('/')
 def hello_world():
-    return jsonify({"status":status,"Value":'LLM Server Running Successsfully'})
+    return jsonify({"status":status,"Value":'LLM Server Running Successsfully',"Version":1.1})
 
 @app.route('/uploadfile/<file_type>',methods=['POST','GET'])
 @cross_origin()
