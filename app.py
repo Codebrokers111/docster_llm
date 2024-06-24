@@ -30,7 +30,7 @@ status = "active"
 llm = ChatOpenAI()
 
 os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
-redis_client = redis.StrictRedis(host='139.59.1.84', port=6379, db=0)
+redis_client = redis.StrictRedis(host='0.0.0.0', port=6379, db=0)
 
 try:
     path = os.path.dirname(os.path.abspath(__file__))
@@ -57,7 +57,7 @@ def uploadFile(name):
 
 @app.route('/')
 def hello_world():
-    return jsonify({"status":status,"Value":'LLM Server Running Successsfully',"Version":1.1})
+    return jsonify({"status":status,"Value":'LLM Server Running Successsfully',"Version":1.2})
 
 @app.route('/uploadfile/<file_type>/<sid>',methods=['POST','GET'])
 @cross_origin()
@@ -239,4 +239,4 @@ def chatsql(sid):
 
  
 if __name__ == '__main__':
-    app.run(debug=True,host='0.0.0.0')
+    app.run(debug=False,host='0.0.0.0')
