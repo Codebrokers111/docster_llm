@@ -146,7 +146,7 @@ def chatpdf(sid):
     print(sid)
     eToken = int(redis_client.hget(sid, 'eToken'))
     print(sid,eToken)
-    db = FAISS.deserialize_from_bytes(embeddings=OpenAIEmbeddings(), serialized=redis_client.hget(sid, 'db'))
+    db = FAISS.deserialize_from_bytes(embeddings=OpenAIEmbeddings(), serialized=redis_client.hget(sid, 'db'),allow_dangerous_deserialization=True)
     doc = db.similarity_search(ques)
     cToken = calTokens(doc)
     chain = load_qa_chain(llm,chain_type='stuff')
@@ -161,7 +161,7 @@ def chattxt(sid):
     req = request.json
     ques = req.get('query')
     eToken = int(redis_client.hget(sid, 'eToken'))
-    db = FAISS.deserialize_from_bytes(embeddings=OpenAIEmbeddings(), serialized=redis_client.hget(sid, 'db'))
+    db = FAISS.deserialize_from_bytes(embeddings=OpenAIEmbeddings(), serialized=redis_client.hget(sid, 'db'),allow_dangerous_deserialization=True)
     doc = db.similarity_search(ques)
     cToken = calTokens(doc)
     chain = load_qa_chain(llm,chain_type='stuff')
@@ -176,7 +176,7 @@ def chatcsv(sid):
     req = request.json
     ques = req.get('query')
     eToken = int(redis_client.hget(sid, 'eToken'))
-    db = FAISS.deserialize_from_bytes(embeddings=OpenAIEmbeddings(), serialized=redis_client.hget(sid, 'db'))
+    db = FAISS.deserialize_from_bytes(embeddings=OpenAIEmbeddings(), serialized=redis_client.hget(sid, 'db'),allow_dangerous_deserialization=True)
     doc = db.similarity_search(ques)
     cToken = calTokens(doc)
     chain = load_qa_chain(llm,chain_type='stuff')
@@ -191,7 +191,7 @@ def chatxlsx(sid):
     req = request.json
     ques = req.get('query')
     eToken = int(redis_client.hget(sid, 'eToken'))
-    db = FAISS.deserialize_from_bytes(embeddings=OpenAIEmbeddings(), serialized=redis_client.hget(sid, 'db'))
+    db = FAISS.deserialize_from_bytes(embeddings=OpenAIEmbeddings(), serialized=redis_client.hget(sid, 'db'),allow_dangerous_deserialization=True)
     doc = db.similarity_search(ques)
     cToken = calTokens(doc)
     chain = load_qa_chain(llm,chain_type='stuff')
