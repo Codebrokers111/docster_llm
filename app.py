@@ -27,10 +27,13 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 status = "active"
+os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
 llm = ChatOpenAI()
 
-os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
-redis_client = redis.StrictRedis(host='0.0.0.0', port=6379, db=0)
+redis_host = os.getenv('REDIS_HOST')
+redis_port = os.getenv('REDIS_PORT')
+
+redis_client = redis.StrictRedis(host=redis_host, port=redis_port, db=0)
 
 try:
     path = os.path.dirname(os.path.abspath(__file__))
@@ -57,7 +60,7 @@ def uploadFile(name):
 
 @app.route('/')
 def hello_world():
-    return jsonify({"status":status,"Value":'LLM Server Running Successsfully',"Version":1.2})
+    return jsonify({"status":status,"Value":'LLM Server Running Successsfully',"Version":1.3})
 
 @app.route('/uploadfile/<file_type>/<sid>',methods=['POST','GET'])
 @cross_origin()
