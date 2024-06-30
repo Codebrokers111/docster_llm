@@ -75,9 +75,12 @@ def uploaded(file_type,sid):
         if(upload):
             file=Init()
             file.initdb(file_type,name)
-            eToken,db = file.initret()
-            redis_client.hset(sid, 'db', db)
-            redis_client.hset(sid, 'eToken', eToken)
+            ready,eToken,db = file.initret()
+            if(ready):
+                redis_client.hset(sid, 'db', db)
+                redis_client.hset(sid, 'eToken', eToken)
+            else:
+                return jsonify({"success":False,"msg":"File Size larger then 5000 tokens"})
             return success
         else:
             return fail
@@ -87,9 +90,12 @@ def uploaded(file_type,sid):
         if(upload):
             file = Initxt()
             file.initdb(file_type,name)
-            eToken,db = file.initret()
-            redis_client.hset(sid, 'db', db)
-            redis_client.hset(sid, 'eToken', eToken)
+            ready,eToken,db = file.initret()
+            if(ready):
+                redis_client.hset(sid, 'db', db)
+                redis_client.hset(sid, 'eToken', eToken)
+            else:
+                return jsonify({"success":False,"msg":"File Size larger then 5000 tokens"})
             return success
         else:
             return fail
@@ -98,9 +104,12 @@ def uploaded(file_type,sid):
         if(upload):
             file = Initcsv()
             file.initdb(file_type,name)
-            eToken,db = file.initret()
-            redis_client.hset(sid, 'db', db)
-            redis_client.hset(sid, 'eToken', eToken)
+            ready,eToken,db = file.initret()
+            if(ready):
+                redis_client.hset(sid, 'db', db)
+                redis_client.hset(sid, 'eToken', eToken)
+            else:
+                return jsonify({"success":False,"msg":"File Size larger then 5000 tokens"})
             return success
         else:
             return fail
@@ -109,9 +118,12 @@ def uploaded(file_type,sid):
         if(upload):
             file = Initxlsx()
             file.initdb(file_type,name)
-            eToken,db = file.initret()
-            redis_client.hset(sid, 'db', db)
-            redis_client.hset(sid, 'eToken', eToken)
+            ready,eToken,db = file.initret()
+            if(ready):
+                redis_client.hset(sid, 'db', db)
+                redis_client.hset(sid, 'eToken', eToken)
+            else:
+                return jsonify({"success":False,"msg":"File Size larger then 5000 tokens"})
             return success
         else:
             return fail
@@ -120,10 +132,13 @@ def uploaded(file_type,sid):
         if(upload):
             file = Initsql()
             file.initdb(file_type,name)
-            cToken,go,name = file.initret()
-            redis_client.hset(sid, 'go', go)
-            redis_client.hset(sid, 'cToken', cToken)
-            redis_client.hset(sid, 'name',name)
+            ready,cToken,go,name = file.initret()
+            if(ready):
+                redis_client.hset(sid, 'go', go)
+                redis_client.hset(sid, 'cToken', cToken)
+                redis_client.hset(sid, 'name',name)
+            else:
+                return jsonify({"success":False,"msg":"File Size larger then 5000 tokens"})
             return success
         else:
             return fail
