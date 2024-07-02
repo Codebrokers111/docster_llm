@@ -1,6 +1,6 @@
 from pdftxt import handlePDF, handleTXT, Embed
 from spreadsheet import handleSS
-from Tokens import calTokens
+from static.Tokens import calEtokens
 import pandas as pd
 from sql import sequel
 import os
@@ -28,7 +28,7 @@ class Init:
         if(str(file_type) == 'pdf'):
             pdf = handlePDF(f'tmp/{name}.pdf')
             load = pdf.extract_text_from_pdf()
-            wordCount = load[0].metadata['page']
+            wordCount = calEtokens(load)
             if(wordCount < 5000):
                 db,eToken = Embed.getEmbeddings(load)
                 self.eToken = eToken
@@ -62,7 +62,7 @@ class Initxt:
         if(str(file_type) == 'txt'):
             txt = handleTXT(f'tmp/{name}.txt')
             load = txt.extract_text_from_txt()
-            wordCount = len(load[0].page_content.split())
+            wordCount = calEtokens(load)
             if(wordCount < 5000):
                 db,eToken = Embed.getEmbeddings(load)
                 self.eToken = eToken
@@ -71,6 +71,7 @@ class Initxt:
             else:
                 self.eToken = 0
                 self.db=0
+            Free.doFree(f'tmp/{name}.txt')
 
     def initret(self):
         return self.ready,self.eToken,self.db
@@ -95,7 +96,7 @@ class Initcsv:
         if(str(file_type) == 'csv'):
             file = handleSS(f'tmp/{name}.csv')
             csvFile = file.loadData() 
-            if(calTokens(csvFile)<5000):
+            if(calEtokens(csvFile)<5000):
                 db,eToken = file.EmbedSS.getEmbeddings(csvFile)
                 self.eToken = eToken
                 self.db=db
@@ -130,7 +131,7 @@ class Initxlsx:
             file = handleSS(f'tmp/{name}.xlsx')
             fle = pd.read_excel(f'tmp/{name}.xlsx')
             xlFile = file.handleExcel(fle)
-            if(calTokens(xlFile)<5000):
+            if(calEtokens(xlFile)<5000):
                 db,eToken = file.EmbedSS.getEmbeddings(xlFile)
                 self.eToken = eToken
                 self.db=db
@@ -138,6 +139,7 @@ class Initxlsx:
             else:
                 self.eToken=0
                 self.db=""
+            Free.doFree(f'tmp/{name}.xlsx')
 
     def initret(self):
         return self.ready,self.eToken, self.db
